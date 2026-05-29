@@ -1,0 +1,34 @@
+# ── Environment & secrets ─────────────────────────────────────────────────────
+.env
+.env.local
+*.env
+
+# ── Java / Maven ──────────────────────────────────────────────────────────────
+target/
+*.class
+*.jar
+*.war
+.mvn/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ── Go ────────────────────────────────────────────────────────────────────────
+services/go-metrics/go-metrics
+services/go-metrics/*.exe
+
+# ── Angular / Node ────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.vercel/
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+*.suo
+.DS_Store
+Thumbs.db
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+infra/postgres-data/

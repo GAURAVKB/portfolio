@@ -48,7 +48,7 @@ services:
       - "9090:9090"
     environment:
       PORT: 9090
-      GITHUB_USERNAME: your-github-username
+      GITHUB_USERNAME: GAURAVKB
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       ALLOWED_ORIGIN: http://localhost:4200
 
