@@ -17,9 +17,11 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+    "rootDir": "./src",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@env/*": ["src/environments/*"],
       "@core/*": ["src/app/core/*"],
