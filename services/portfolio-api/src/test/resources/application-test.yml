@@ -3,7 +3,9 @@
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    # Do NOT use MODE=PostgreSQL — that makes Hibernate think it's real Postgres
+    # and it generates INSERT...RETURNING id which H2 doesn't support
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
     driver-class-name: org.h2.Driver
