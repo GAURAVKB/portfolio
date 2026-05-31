@@ -20,7 +20,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +31,10 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+    // Injected as a raw String and split manually — more reliable than List<String>
+    // from env vars (Spring's @Value List parsing can silently fail with commas)
     @Value("${app.cors.allowed-origins:http://localhost:4200}")
-    private List<String> allowedOrigins;
+    private String allowedOriginsRaw;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -63,12 +67,14 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        // Split the raw string manually — handles "https://gauravkumar.work,http://localhost:4200"
+        List<String> origins = Arrays.stream(allowedOriginsRaw.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+
         var config = new CorsConfiguration();
-        // Use patterns so wildcards work (e.g. Vercel preview URLs)
-        // APP_CORS_ALLOWED_ORIGINS on Render: "https://gauravkumar.work,http://localhost:4200"
-        config.setAllowedOriginPatterns(allowedOrigins.isEmpty()
-                ? List.of("http://localhost:4200")
-                : allowedOrigins);
+        config.setAllowedOriginPatterns(origins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
