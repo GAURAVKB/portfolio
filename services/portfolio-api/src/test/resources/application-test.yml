@@ -15,6 +15,11 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
+    properties:
+      hibernate:
+        # Override the PostgreSQLDialect set in application.yml — must be explicit
+        # so Hibernate uses GetGeneratedKeysDelegate (not InsertReturningDelegate)
+        dialect: org.hibernate.dialect.H2Dialect
 
   flyway:
     enabled: false   # H2 doesn't support PostgreSQL DDL; schema created by Hibernate above
