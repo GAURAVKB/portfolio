@@ -18,14 +18,11 @@ func main() {
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
-	allowedOrigin := os.Getenv("ALLOWED_ORIGIN")
-	if allowedOrigin == "" {
-		allowedOrigin = "http://localhost:4200"
-	}
+	// All endpoints are public read-only — allow any origin
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{allowedOrigin},
+		AllowAllOrigins:  true,
 		AllowMethods:     []string{"GET", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: false,
 		MaxAge:           12 * time.Hour,
