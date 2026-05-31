@@ -64,7 +64,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.setAllowedOrigins(allowedOrigins);
+        // Use patterns so wildcards work (e.g. Vercel preview URLs)
+        // APP_CORS_ALLOWED_ORIGINS on Render: "https://gauravkumar.work,http://localhost:4200"
+        config.setAllowedOriginPatterns(allowedOrigins.isEmpty()
+                ? List.of("http://localhost:4200")
+                : allowedOrigins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
