@@ -1,0 +1,43 @@
+# ── Test profile — used by PortfolioApplicationTests in CI ──────────────────
+# Uses H2 in-memory DB, no real mail server, no Flyway (schema via ddl-auto)
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+
+  flyway:
+    enabled: false   # H2 doesn't support PostgreSQL DDL; schema created by Hibernate above
+
+  mail:
+    host: localhost
+    port: 25
+    username: test
+    password: test
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+            required: false
+
+app:
+  jwt:
+    secret: test-secret-minimum-256-bits-long-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    expiration-ms: 86400000
+  admin:
+    password: test123
+  mail:
+    from: test@test.com
+    admin-email: test@test.com
+  cors:
+    allowed-origins: http://localhost:4200
